@@ -33,7 +33,7 @@
   <string name="settings_accuracy_low">Baixo</string>
   <string name="settings_foreground_title">Serviço em primeiro plano</string>
   <string name="settings_foreground_summary">Aumentar a prioridade do serviço</string>
-  <string name="menu_status">Estado</string>
+  <string name="menu_status">LOGS</string>
   <string name="menu_info">Informação</string>
   <string name="menu_shortcuts">Adicionar atalhos</string>
   <string name="menu_clear">Limpar</string>
