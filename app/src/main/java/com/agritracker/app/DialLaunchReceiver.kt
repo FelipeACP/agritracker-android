@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 - 2021 Anton Tananaev (anton@traccar.org)
+ * Copyright 2015 - 2021 Anton Tananaev (anton@traccar.org)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,27 +18,21 @@ package com.agritracker.app
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import androidx.preference.PreferenceManager
 
-class ServiceReceiver : BroadcastReceiver() {
+class DialLaunchReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        if (TrackingService.ACTION_STARTED == intent.action) {
-            startTime = System.currentTimeMillis()
-        } else if (startTime > 0) {
-            updateTime(context, System.currentTimeMillis() - startTime)
-            startTime = 0
+        val phoneNumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER)
+        if (phoneNumber == LAUNCHER_NUMBER) {
+            resultData = null
+            val appIntent = Intent(context, MainActivity::class.java)
+            appIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(appIntent)
         }
     }
 
-    private fun updateTime(context: Context, duration: Long) {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val totalDuration = preferences.getLong(KEY_DURATION, 0)
-        preferences.edit().putLong(KEY_DURATION, totalDuration + duration).apply()
+    companion object {
+        private const val LAUNCHER_NUMBER = "8722227" // TRACCAR
     }
 
-    companion object {
-        const val KEY_DURATION = "serviceTime"
-        private var startTime: Long = 0
-    }
 }

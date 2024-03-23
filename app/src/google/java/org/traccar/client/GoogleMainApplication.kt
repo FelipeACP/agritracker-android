@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.traccar.client
+package com.agritracker.app
 
 import android.app.Activity
 import android.content.IntentFilter

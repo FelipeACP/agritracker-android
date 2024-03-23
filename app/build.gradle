@@ -8,14 +8,14 @@ plugins {
 android {
     compileSdk 34
     defaultConfig {
-        applicationId 'org.traccar.client'
+        applicationId 'com.agritracker.app'
         minSdkVersion 16
         targetSdkVersion 34
         versionCode 83
         versionName '7.2'
         multiDexEnabled true
     }
-    namespace 'org.traccar.client'
+    namespace 'com.agritracker.app'
 
     packagingOptions {
         resources {

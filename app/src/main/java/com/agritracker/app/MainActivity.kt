@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 - 2021 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 - 2021 Anton Tananaev (anton@traccar.org)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,14 @@
  */
 package com.agritracker.app
 
-import android.content.Context
-import com.agritracker.app.PositionProvider.PositionListener
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
 
-object PositionProviderFactory {
+class MainActivity : AppCompatActivity() {
 
-    fun create(context: Context, listener: PositionListener): PositionProvider {
-        return GooglePositionProvider(context, listener)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.main)
     }
+
 }

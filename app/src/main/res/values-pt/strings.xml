@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="app_name">Cliente Traccar</string>
+  <string name="app_name">Aggritracker</string>
   <string name="app_logo">Traccar</string>
   <string name="shortcut_start">Iniciar serviço</string>
   <string name="shortcut_stop">Parar serviço</string>
@@ -41,8 +41,8 @@
   <string name="status_send_success">Enviado com Sucesso</string>
   <string name="status_send_fail">Falha no envio</string>
   <string name="status_location_update">Localização atualizada</string>
-  <string name="status_network_online">Rede online</string>
-  <string name="status_network_offline">Rede offline</string>
+  <string name="status_network_online">Conectado a internet</string>
+  <string name="status_network_offline">Conexão de internet perdida</string>
   <string name="hidden_app_name">Definições do Dispositivo</string>
   <string name="hidden_alert">A aplicação foi ocultada com sucesso. Para abrir novamente, por favor contacte 8722227 (TRACCAR).</string>
   <string name="error_msg_invalid_url">Digite um URL http: // ou https: // válido</string>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 - 2021 Anton Tananaev (anton@traccar.org)
+ * Copyright 2013 - 2021 Anton Tananaev (anton@traccar.org)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,17 @@
 package com.agritracker.app
 
 import android.content.Context
-import com.agritracker.app.PositionProvider.PositionListener
+import android.content.Intent
+import androidx.preference.PreferenceManager
 
-object PositionProviderFactory {
+class AutostartReceiver : WakefulBroadcastReceiver() {
 
-    fun create(context: Context, listener: PositionListener): PositionProvider {
-        return GooglePositionProvider(context, listener)
+    @Suppress("UnsafeProtectedBroadcastReceiver")
+    override fun onReceive(context: Context, intent: Intent) {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        if (sharedPreferences.getBoolean(MainFragment.KEY_STATUS, false)) {
+            startWakefulForegroundService(context, Intent(context, TrackingService::class.java))
+        }
     }
+
 }

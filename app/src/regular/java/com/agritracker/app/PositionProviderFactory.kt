@@ -21,6 +21,6 @@ import com.agritracker.app.PositionProvider.PositionListener
 object PositionProviderFactory {
 
     fun create(context: Context, listener: PositionListener): PositionProvider {
-        return GooglePositionProvider(context, listener)
+        return AndroidPositionProvider(context, listener)
     }
 }

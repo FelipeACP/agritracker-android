@@ -14,12 +14,6 @@
         android:key="id"
         android:title="@string/settings_id_title" />
 
-    <EditTextPreference
-        android:defaultValue="@string/settings_url_default_value"
-        android:key="url"
-        android:summary="@string/settings_url_summary"
-        android:title="@string/settings_url_title" />
-
     <ListPreference
         android:defaultValue="medium"
         android:entries="@array/settings_accuracy_names"
