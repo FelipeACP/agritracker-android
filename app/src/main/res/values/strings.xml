@@ -18,8 +18,8 @@
   <string name="settings_status_title">Status do Serviço</string>
   <string name="settings_status_off">Iniciar</string>
   <string name="settings_status_on">Parar</string>
-  <string name="settings_status_off_summary">Serviço Parado</string>
-  <string name="settings_status_on_summary">Serviço em execução</string>
+  <string name="settings_status_off_summary">Agritracker parou</string>
+  <string name="settings_status_on_summary">Agritracker em execução</string>
   <string name="settings_buffer">Guardar dados offline</string>
   <string name="settings_buffer_off_summary">Desligado</string>
   <string name="settings_buffer_on_summary">Ligado</string>
@@ -37,7 +37,7 @@
   <string name="menu_info">Informação</string>
   <string name="menu_shortcuts">Adicionar atalhos</string>
   <string name="menu_clear">Limpar</string>
-  <string name="status_service_create">Serviço iniciado</string>
+  <string name="status_service_create">Agritracker iniciado</string>
   <string name="status_service_destroy">Rastreamento interrompido pelo usuário</string>
   <string name="status_send_success">Enviado com Sucesso</string>
   <string name="status_send_fail">Falha no envio</string>
@@ -45,7 +45,7 @@
   <string name="status_network_online">Conectado a Rede</string>
   <string name="status_network_offline">Conexão perdida</string>
   <string name="hidden_app_name">Configurações do Dispositivo</string>
-  <string name="hidden_alert">O aplicativo foi escondido. Para abrir novamente por favor digite 8722227 (TRACCAR).</string>
+  <string name="hidden_alert">O aplicativo foi escondido. Para abrir novamente por favor digite 8722227.</string>
   <string name="error_msg_invalid_url">Digite uma URL http: // ou https: // válida</string>
   <string name="request_exception">Para coletar dados de localização continuamente por favor desabilite a economia de bateria para o aplicativo.</string>
   <string name="request_background">Para coletar dados de localização continuamente por favor habilite a permissão \"%s\".</string>
