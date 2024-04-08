@@ -38,6 +38,7 @@ abstract class PositionProvider(
     protected var preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
     protected var deviceId = preferences.getString(MainFragment.KEY_DEVICE, "undefined")!!
     protected var interval = preferences.getString(MainFragment.KEY_INTERVAL, "600")!!.toLong() * 1000
+    protected var idleInterval = preferences.getString(MainFragment.KEY_IDLE_INTERVAL, "3000")!!.toLong() * 1000
     protected var distance: Double = preferences.getString(MainFragment.KEY_DISTANCE, "0")!!.toInt().toDouble()
     protected var angle: Double = preferences.getString(MainFragment.KEY_ANGLE, "0")!!.toInt().toDouble()
     private var lastLocation: Location? = null
@@ -47,18 +48,30 @@ abstract class PositionProvider(
     abstract fun requestSingleLocation()
 
     protected fun processLocation(location: Location?) {
-        val lastLocation = this.lastLocation
-        if (location != null &&
-            (lastLocation == null || location.time - lastLocation.time >= interval || distance > 0
-                    && location.distanceTo(lastLocation) >= distance || angle > 0
-                    && abs(location.bearing - lastLocation.bearing) >= angle)
-        ) {
-            Log.i(TAG, "location new")
-            this.lastLocation = location
-            listener.onPositionUpdate(Position(deviceId, location, getBatteryStatus(context)))
-        } else {
-            Log.i(TAG, if (location != null) "location ignored" else "location nil")
+
+        if (location == null) {
+            Log.i(TAG, "Location is null")
+            return
         }
+        val lastLocation = this.lastLocation
+        if (isMeaningfulUpdate(location, lastLocation)) {
+            Log.i(TAG, "Location is new")
+            this.lastLocation = location
+            listener.onPositionUpdate(
+                    Position(deviceId, location, getBatteryStatus(context))
+            )
+        } else {
+            Log.i(TAG, "Location ignored")
+        }
+    }
+
+    private fun isMeaningfulUpdate(newLocation: Location, lastLocation: Location?): Boolean {
+        Log.d(TAG, (newLocation.hasSpeed()).toString())
+        if (lastLocation !== null && newLocation.time - lastLocation.time <= idleInterval && newLocation.speed == 0F) return false
+        return lastLocation == null
+                || newLocation.time - lastLocation.time >= interval
+                || distance > 0 && newLocation.distanceTo(lastLocation) >= distance
+                || angle > 0 && abs(newLocation.bearing - lastLocation.bearing) >= angle
     }
 
     protected fun getBatteryStatus(context: Context): BatteryStatus {

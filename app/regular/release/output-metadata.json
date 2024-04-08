@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.agritracker.app",
+  "variantName": "regularRelease",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 500011003,
+      "versionName": "1.1.3",
+      "outputFile": "app-regular-release.apk"
+    }
+  ],
+  "elementType": "File"
+}

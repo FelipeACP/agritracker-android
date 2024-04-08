@@ -9,7 +9,8 @@
   <string name="settings_id_title">Identificador do dispositivo</string>
   <string name="settings_url_title">URL do Servidor</string>
   <string name="settings_url_summary">URL do servidor de rastreamento</string>
-  <string name="settings_interval_title">Invervalo</string>
+  <string name="settings_interval_title">Invervalo em movimento</string>
+  <string name="settings_idle_interval_title">Invervalo inerte</string>
   <string name="settings_interval_summary">Reportando intervalo em segundos</string>
   <string name="settings_distance_title">Distância</string>
   <string name="settings_distance_summary">Reportando distância em metros</string>

@@ -45,6 +45,7 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import androidx.preference.TwoStatePreference
 import dev.doubledot.doki.ui.DokiActivity
+import android.provider.Settings.Secure;
 import java.util.*
 
 class MainFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
@@ -84,6 +85,7 @@ class MainFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListene
             }
         }
         findPreference<Preference>(KEY_DISTANCE)?.onPreferenceChangeListener = numberValidationListener
+        findPreference<Preference>(KEY_IDLE_INTERVAL)?.onPreferenceChangeListener = numberValidationListener
         findPreference<Preference>(KEY_ANGLE)?.onPreferenceChangeListener = numberValidationListener
 
         alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -123,7 +125,7 @@ class MainFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListene
 
     @Suppress("DEPRECATION")
     override fun onDisplayPreferenceDialog(preference: Preference) {
-        if (listOf(KEY_INTERVAL, KEY_DISTANCE, KEY_ANGLE).contains(preference.key)) {
+        if (listOf(KEY_INTERVAL, KEY_DISTANCE, KEY_ANGLE, KEY_IDLE_INTERVAL).contains(preference.key)) {
             val f: EditTextPreferenceDialogFragmentCompat =
                 NumericEditTextPreferenceDialogFragment.newInstance(preference.key)
             f.setTargetFragment(this, 0)
@@ -155,6 +157,7 @@ class MainFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListene
         findPreference<Preference>(KEY_URL)?.isEnabled = enabled
         findPreference<Preference>(KEY_INTERVAL)?.isEnabled = enabled
         findPreference<Preference>(KEY_DISTANCE)?.isEnabled = enabled
+        findPreference<Preference>(KEY_IDLE_INTERVAL)?.isEnabled = enabled
         findPreference<Preference>(KEY_ANGLE)?.isEnabled = enabled
         findPreference<Preference>(KEY_ACCURACY)?.isEnabled = enabled
         findPreference<Preference>(KEY_BUFFER)?.isEnabled = enabled
@@ -193,7 +196,7 @@ class MainFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListene
     private fun initPreferences() {
         PreferenceManager.setDefaultValues(requireActivity(), R.xml.preferences, false)
         if (!sharedPreferences.contains(KEY_DEVICE)) {
-            val id = (Random().nextInt(900000) + 100000).toString()
+            val id = Secure.getString(context?.contentResolver, Secure.ANDROID_ID) ?:(Random().nextInt(900000) + 100000).toString()
             sharedPreferences.edit().putString(KEY_DEVICE, id).apply()
             findPreference<EditTextPreference>(KEY_DEVICE)?.text = id
         }
@@ -294,6 +297,7 @@ class MainFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListene
         const val KEY_DEVICE = "id"
         const val KEY_URL = "url"
         const val KEY_INTERVAL = "interval"
+        const val KEY_IDLE_INTERVAL = "idleInterval"
         const val KEY_DISTANCE = "distance"
         const val KEY_ANGLE = "angle"
         const val KEY_ACCURACY = "accuracy"

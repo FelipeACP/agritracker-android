@@ -128,6 +128,7 @@ class TrackingController(private val context: Context) : PositionListener, Netwo
                             delete(result)
                         }
                     } else {
+                        log("isWaiting", null)
                         isWaiting = true
                     }
                 } else {
