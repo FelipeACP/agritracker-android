@@ -20,6 +20,9 @@ import android.location.LocationManager
 import android.os.Build
 import java.util.*
 
+
+private const val ALARM_VIBRATION = "vibration"
+
 data class Position(
     val id: Long = 0,
     val deviceId: String,
@@ -32,10 +35,12 @@ data class Position(
     val accuracy: Double = 0.0,
     val battery: Double = 0.0,
     val charging: Boolean = false,
+    val acceleration: Double = 0.0,
+    val alarm: String? = null,
     val mock: Boolean = false,
 ) {
 
-    constructor(deviceId: String, location: Location, battery: BatteryStatus) : this(
+    constructor(deviceId: String, location: Location, battery: BatteryStatus, acceleration: Acceleration) : this(
         deviceId = deviceId,
         time = Date(location.time.correctRollover()),
         latitude = location.latitude,
@@ -50,6 +55,9 @@ data class Position(
         },
         battery = battery.level,
         charging = battery.charging,
+        acceleration = acceleration.value,
+        alarm = if (acceleration.vibrated) ALARM_VIBRATION else null,
+
         mock = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             location.isMock
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {

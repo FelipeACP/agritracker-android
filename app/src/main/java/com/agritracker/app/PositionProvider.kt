@@ -19,6 +19,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location
 import android.os.BatteryManager
 import androidx.preference.PreferenceManager
@@ -36,12 +41,16 @@ abstract class PositionProvider(
     }
 
     protected var preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    private lateinit var sensorManager: SensorManager
+    private var accelerometer: Sensor? = null
     protected var deviceId = preferences.getString(MainFragment.KEY_DEVICE, "undefined")!!
     protected var interval = preferences.getString(MainFragment.KEY_INTERVAL, "600")!!.toLong() * 1000
     protected var idleInterval = preferences.getString(MainFragment.KEY_IDLE_INTERVAL, "3000")!!.toLong() * 1000
     protected var distance: Double = preferences.getString(MainFragment.KEY_DISTANCE, "0")!!.toInt().toDouble()
     protected var angle: Double = preferences.getString(MainFragment.KEY_ANGLE, "0")!!.toInt().toDouble()
     private var lastLocation: Location? = null
+    private var acceleration = null
+    private var vibration = false
 
     abstract fun startUpdates()
     abstract fun stopUpdates()
@@ -58,7 +67,7 @@ abstract class PositionProvider(
             Log.i(TAG, "Location is new")
             this.lastLocation = location
             listener.onPositionUpdate(
-                    Position(deviceId, location, getBatteryStatus(context))
+                    Position(deviceId, location, getBatteryStatus(context), Acceleration(acceleration, vibration))
             )
         } else {
             Log.i(TAG, "Location ignored")
@@ -66,7 +75,6 @@ abstract class PositionProvider(
     }
 
     private fun isMeaningfulUpdate(newLocation: Location, lastLocation: Location?): Boolean {
-        Log.d(TAG, (newLocation.hasSpeed()).toString())
         if (lastLocation !== null && newLocation.time - lastLocation.time <= idleInterval && newLocation.speed == 0F) return false
         return lastLocation == null
                 || newLocation.time - lastLocation.time >= interval
@@ -88,9 +96,24 @@ abstract class PositionProvider(
         return BatteryStatus()
     }
 
+    override fun onSensorChanged(event: SensorEvent) {
+        if (event.sensor.type == Sensor.TYPE_ACCELEROMETER) {
+            val x = event.values[0]
+            val y = event.values[1]
+            val z = event.values[2]
+            acceleration = Math.sqrt((x * x + y * y + z * z).toDouble())
+            vibration = acceleration > VIBRATION_THRESHOLD
+        }
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+        // Not needed
+    }
+
     companion object {
         private val TAG = PositionProvider::class.java.simpleName
         const val MINIMUM_INTERVAL: Long = 1000
+        const val VIBRATION_THRESHOLD = 5.0
     }
 
 }

@@ -40,6 +40,9 @@ object ProtocolFormatter {
         if (alarm != null) {
             builder.appendQueryParameter("alarm", alarm)
         }
+        if (position.acceleration != 0.0) {
+            builder.appendQueryParameter("acceleration", position.acceleration.toString())
+        }
         return builder.build().toString()
     }
 }
