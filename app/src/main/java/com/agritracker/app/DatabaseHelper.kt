@@ -107,7 +107,7 @@ class DatabaseHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAM
 
     @SuppressLint("Range")
     fun selectPosition(): Position? {
-        db.rawQuery("SELECT * FROM position ORDER BY id LIMIT 1", null).use { cursor ->
+        db.rawQuery("SELECT * FROM position ORDER BY id DESC LIMIT 1", null).use { cursor ->
             if (cursor.count > 0) {
                 cursor.moveToFirst()
                 return Position(

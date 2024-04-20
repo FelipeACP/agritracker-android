@@ -66,8 +66,8 @@ abstract class PositionProvider(
     }
 
     private fun isMeaningfulUpdate(newLocation: Location, lastLocation: Location?): Boolean {
-        Log.d(TAG, (newLocation.hasSpeed()).toString())
-        if (lastLocation !== null && newLocation.time - lastLocation.time <= idleInterval && newLocation.speed == 0F) return false
+        Log.d(TAG, newLocation.speed.toString())
+        if (lastLocation !== null && newLocation.time - lastLocation.time <= idleInterval && newLocation.speed < 1F) return false
         return lastLocation == null
                 || newLocation.time - lastLocation.time >= interval
                 || distance > 0 && newLocation.distanceTo(lastLocation) >= distance
