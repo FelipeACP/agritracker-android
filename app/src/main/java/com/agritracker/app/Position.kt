@@ -24,23 +24,23 @@ import java.util.*
 private const val ALARM_VIBRATION = "vibration"
 
 data class Position(
-    val id: Long = 0,
-    val deviceId: String,
-    val time: Date,
-    val latitude: Double = 0.0,
-    val longitude: Double = 0.0,
-    val altitude: Double = 0.0,
-    val speed: Double = 0.0,
-    val course: Double = 0.0,
-    val accuracy: Double = 0.0,
-    val battery: Double = 0.0,
-    val charging: Boolean = false,
-    val acceleration: Double = 0.0,
-    val alarm: String? = null,
-    val mock: Boolean = false,
+        val id: Long = 0,
+        val deviceId: String,
+        val time: Date,
+        val latitude: Double = 0.0,
+        val longitude: Double = 0.0,
+        val altitude: Double = 0.0,
+        val speed: Double = 0.0,
+        val course: Double = 0.0,
+        val accuracy: Double = 0.0,
+        val battery: Double = 0.0,
+        val charging: Boolean = false,
+        val acceleration: Double = 0.0,
+        val alarm: String? = null,
+        val mock: Boolean = false,
 ) {
 
-    constructor(deviceId: String, location: Location, battery: BatteryStatus, acceleration: Acceleration) : this(
+    constructor(deviceId: String, location: Location, battery: BatteryStatus, acceleration: Acceleration? = null) : this(
         deviceId = deviceId,
         time = Date(location.time.correctRollover()),
         latitude = location.latitude,
@@ -55,8 +55,8 @@ data class Position(
         },
         battery = battery.level,
         charging = battery.charging,
-        acceleration = acceleration.value,
-        alarm = if (acceleration.vibrated) ALARM_VIBRATION else null,
+        acceleration =  (acceleration?.value ?: 0.0),
+        alarm = if (acceleration?.vibrated == true) ALARM_VIBRATION else null,
 
         mock = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             location.isMock

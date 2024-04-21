@@ -20,14 +20,19 @@ import android.content.Context
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.os.Bundle
 import android.os.Looper
 
 class AndroidPositionProvider(context: Context, listener: PositionListener) : PositionProvider(context, listener), LocationListener {
-
+    private var sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     private val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
     private val provider = getProvider(preferences.getString(MainFragment.KEY_ACCURACY, "high"))
-
+    private val accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
+    private var sensorEventListener: SensorEventListener? = null
     @SuppressLint("MissingPermission")
     override fun startUpdates() {
         try {
@@ -36,10 +41,20 @@ class AndroidPositionProvider(context: Context, listener: PositionListener) : Po
         } catch (e: RuntimeException) {
             listener.onPositionError(e)
         }
+        if (accelerometer != null) {
+            sensorEventListener = object : SensorEventListener {
+                override fun onSensorChanged(event: SensorEvent) {
+                    onSensorData(event)
+                }
+                override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
+            }
+            sensorManager.registerListener(sensorEventListener, accelerometer, SensorManager.SENSOR_DELAY_NORMAL)
+        }
     }
 
     override fun stopUpdates() {
         locationManager.removeUpdates(this)
+        sensorManager.unregisterListener(sensorEventListener)
     }
 
     @Suppress("DEPRECATION", "MissingPermission")
@@ -54,6 +69,7 @@ class AndroidPositionProvider(context: Context, listener: PositionListener) : Po
                         listener.onPositionUpdate(Position(deviceId, location, getBatteryStatus(context)))
                     }
 
+                    @Deprecated("Deprecated in Java")
                     override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
                     override fun onProviderEnabled(provider: String) {}
                     override fun onProviderDisabled(provider: String) {}
@@ -68,6 +84,7 @@ class AndroidPositionProvider(context: Context, listener: PositionListener) : Po
         processLocation(location)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
     override fun onProviderEnabled(provider: String) {}
     override fun onProviderDisabled(provider: String) {}

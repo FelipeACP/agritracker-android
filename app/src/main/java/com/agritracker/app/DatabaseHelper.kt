@@ -67,6 +67,8 @@ class DatabaseHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAM
                     "accuracy REAL," +
                     "battery REAL," +
                     "charging INTEGER," +
+                    "vibration INTEGER," +
+                    "acceleration REAL," +
                     "mock INTEGER)"
         )
     }
@@ -93,6 +95,7 @@ class DatabaseHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAM
         values.put("accuracy", position.accuracy)
         values.put("battery", position.battery)
         values.put("charging", if (position.charging) 1 else 0)
+        values.put("acceleration", position.acceleration)
         values.put("mock", if (position.mock) 1 else 0)
         db.insertOrThrow("position", null, values)
     }
@@ -122,6 +125,7 @@ class DatabaseHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAM
                     accuracy = cursor.getDouble(cursor.getColumnIndex("accuracy")),
                     battery = cursor.getDouble(cursor.getColumnIndex("battery")),
                     charging = cursor.getInt(cursor.getColumnIndex("charging")) > 0,
+                    acceleration = cursor.getDouble(cursor.getColumnIndex("acceleration")),
                     mock = cursor.getInt(cursor.getColumnIndex("mock")) > 0,
                 )
             }
@@ -152,7 +156,7 @@ class DatabaseHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAM
     }
 
     companion object {
-        const val DATABASE_VERSION = 4
+        const val DATABASE_VERSION = 5
         const val DATABASE_NAME = "traccar.db"
     }
 
