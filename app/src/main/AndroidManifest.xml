@@ -58,8 +58,8 @@
         <receiver android:name=".StatusWidget" android:label="@string/widget_label" android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.agritracker.app.SERVICE_STARTED" />
-                <action android:name="com.agritracker.app.SERVICE_STOPPED" />
+                <action android:name="com.agritracker.plus.SERVICE_STARTED" />
+                <action android:name="com.agritracker.plus.SERVICE_STOPPED" />
             </intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/status_widget_info" />
         </receiver>

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <application android:name="com.agritracker.app.GoogleMainApplication" tools:replace="android:name" tools:ignore="GoogleAppIndexingWarning">
+    <application android:name="com.agritracker.plus.GoogleMainApplication" tools:replace="android:name" tools:ignore="GoogleAppIndexingWarning">
 
     </application>
 

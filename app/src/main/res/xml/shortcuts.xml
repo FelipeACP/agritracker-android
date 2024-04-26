@@ -3,19 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools" tools:targetApi="n_mr1">
 
     <shortcut android:shortcutId="start" android:enabled="true" android:icon="@mipmap/ic_start" android:shortcutShortLabel="@string/shortcut_start">
-        <intent android:action="android.intent.action.VIEW" android:targetPackage="com.agritracker.app" android:targetClass="com.agritracker.app.ShortcutActivity">
+        <intent android:action="android.intent.action.VIEW" android:targetPackage="com.agritracker.plus" android:targetClass="com.agritracker.plus.ShortcutActivity">
             <extra android:name="action" android:value="start" />
         </intent>
     </shortcut>
 
     <shortcut android:shortcutId="stop" android:enabled="true" android:icon="@mipmap/ic_stop" android:shortcutShortLabel="@string/shortcut_stop">
-        <intent android:action="android.intent.action.VIEW" android:targetPackage="com.agritracker.app" android:targetClass="com.agritracker.app.ShortcutActivity">
+        <intent android:action="android.intent.action.VIEW" android:targetPackage="com.agritracker.plus" android:targetClass="com.agritracker.plus.ShortcutActivity">
             <extra android:name="action" android:value="stop" />
         </intent>
     </shortcut>
 
     <shortcut android:shortcutId="sos" android:enabled="true" android:icon="@mipmap/ic_sos" android:shortcutShortLabel="@string/shortcut_sos">
-        <intent android:action="android.intent.action.VIEW" android:targetPackage="com.agritracker.app" android:targetClass="com.agritracker.app.ShortcutActivity">
+        <intent android:action="android.intent.action.VIEW" android:targetPackage="com.agritracker.plus" android:targetClass="com.agritracker.plus.ShortcutActivity">
             <extra android:name="action" android:value="sos" />
         </intent>
     </shortcut>

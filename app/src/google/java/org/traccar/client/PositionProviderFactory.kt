@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.agritracker.app
+package com.agritracker.plus
 
 import android.content.Context
-import com.agritracker.app.PositionProvider.PositionListener
+import com.agritracker.plus.PositionProvider.PositionListener
 
 object PositionProviderFactory {
 
