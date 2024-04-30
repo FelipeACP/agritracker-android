@@ -25,6 +25,10 @@ import android.os.Build
 import android.app.Activity
 
 open class MainApplication : MultiDexApplication() {
+    companion object {
+        const val PRIMARY_CHANNEL = "default"
+    }
+    var currentCompanyId: String? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -45,9 +49,5 @@ open class MainApplication : MultiDexApplication() {
     }
 
     open fun handleRatingFlow(activity: Activity) {}
-
-    companion object {
-        const val PRIMARY_CHANNEL = "default"
-    }
 
 }
