@@ -83,80 +83,30 @@ class RegisterActivity : AppCompatActivity() {
 
             progressBar.visibility = View.VISIBLE
 
-            codedEmail = emailInput.replace("[.]".toRegex(), "__dot__")
+            auth.createUserWithEmailAndPassword(emailInput, password)
+                .addOnCompleteListener(this@RegisterActivity, OnCompleteListener<AuthResult> { task ->
+                    Toast.makeText(this@RegisterActivity, "createUserWithEmail:onComplete:" + task.isSuccessful, Toast.LENGTH_SHORT).show()
+                    progressBar.visibility = View.GONE
 
-            val invitedUserRef = FirebaseDatabase.getInstance().getReference("InvitedUsers/$codedEmail")
-
-            invitedUserRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val invitedUser = dataSnapshot.getValue(User::class.java)
-                    var foundMatch = false
-
-                    if (invitedUser != null) {
-                        foundMatch = true
-                    }
-
-                    if (foundMatch) {
-                        auth.createUserWithEmailAndPassword(emailInput, password)
-                            .addOnCompleteListener(this@RegisterActivity, OnCompleteListener<AuthResult> { task ->
-                                val companyWorkerDetailsRef = FirebaseDatabase.getInstance().getReference("CompanyWorkersDetails/Company/${invitedUser?.companyUID}/Workers/$codedEmail")
-
-                                progressBar.visibility = View.GONE
-
-                                if (!task.isSuccessful) {
-                                    Toast.makeText(this@RegisterActivity, "Authentication failed." + task.exception,
-                                        Toast.LENGTH_SHORT).show()
-                                } else {
-                                    Toast.makeText(this@RegisterActivity, "Congratulations, you've successfully registered", Toast.LENGTH_SHORT).show()
-                                    val fbUser: FirebaseUser? = task.result?.user
-                                    val userUID = fbUser?.uid
-
-                                    companyWorkerDetailsRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                            val rootRef = FirebaseDatabase.getInstance().getReference("")
-                                            val preCretedUser = dataSnapshot.getValue(User::class.java)
-                                            preCretedUser?.userUID = userUID
-                                            preCretedUser?.status = "active"
-
-                                            val multiPathInsertMap = HashMap<String, Any>()
-
-                                            multiPathInsertMap["CompanyWorkers/Company/${invitedUser?.companyUID}/Workers/$userUID"] = preCretedUser!!
-                                            multiPathInsertMap["CompanyWorkersDetails/Company/${invitedUser?.companyUID}/Workers/$userUID"] = preCretedUser!!
-                                            multiPathInsertMap["Users/$userUID"] = preCretedUser!!
-
-                                            rootRef.updateChildren(multiPathInsertMap, DatabaseReference.CompletionListener { error, _ ->
-                                                if (error == null) {
-                                                    FirebaseDatabase.getInstance().getReference("CompanyWorkers/Company/${invitedUser?.companyUID}/Workers/$codedEmail").removeValue()
-                                                    FirebaseDatabase.getInstance().getReference("CompanyWorkersDetails/Company/${invitedUser?.companyUID}/Workers/$codedEmail").removeValue()
-                                                    FirebaseDatabase.getInstance().getReference("InvitedUsers/$codedEmail").removeValue()
-                                                } else {
-                                                    println("Firebase. Error = $error")
-                                                }
-                                            })
-                                        }
-
-                                        override fun onCancelled(databaseError: DatabaseError) {
-
-                                        }
-                                    })
-
-                                    startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
-                                    finish()
-                                }
-                            })
+                    if (!task.isSuccessful) {
+                        Toast.makeText(this@RegisterActivity, "Authentication failed." + task.exception,
+                            Toast.LENGTH_SHORT).show()
                     } else {
-                        progressBar.visibility = View.GONE
-                        Toast.makeText(this@RegisterActivity, "You need to be invited by your company admin", Toast.LENGTH_SHORT).show()
+                        val user = auth.currentUser
+                        val uid = user!!.uid
+                        val email = user.email
+                        //val userRef = FirebaseDatabase.getInstance().getReference("users")
+                        //val newUser = User(uid, email)
+                        //userRef.child(uid).setValue(newUser)
+                        Toast.makeText(this@RegisterActivity, "User created with email: $email", Toast.LENGTH_SHORT)
+                        startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
+                        finish()
                     }
-                }
+                })
 
-                override fun onCancelled(databaseError: DatabaseError) {
 
-                }
-            })
         }
     }
-
     override fun onResume() {
         super.onResume()
         progressBar.visibility = View.GONE

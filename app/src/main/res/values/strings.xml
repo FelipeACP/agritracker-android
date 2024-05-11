@@ -66,6 +66,15 @@
   <string name="task_status_active"><b>ACTIVE</b></string>
   <string name="action_sign_in_short">Register</string>
 
+  <!-- Navigation Drawer menu labels -->
+  <string name="nav_tasks">Tasks</string>
+  <string name="nav_home">Home</string>
+  <string name="nav_notifications">Notifications</string>
+  <string name="nav_settings">Settings</string>
+  <string name="nav_about_us">About Us</string>
+  <string name="action_logout">Logout</string>
+  <string name="menu_about"> Sobre</string>
+
   <!--- Login activity -->
   <string name="email">Email</string>
   <string name="minimum_password">Senha mínima de 6 caracteres</string>
@@ -96,5 +105,10 @@
   <string name="btn_sign_out">Sair</string>
   <string name="lbl_forgot_password">Esqueceu a senha?</string>
   <string name="forgot_password_msg">Precisamos do seu email de cadastro para enviar as instruções de redefinição de senha.</string>
-
+  <string name="gcm_defaultSenderId" translatable="false">14816666554</string>
+  <string name="google_api_key" translatable="false">AIzaSyDvrOI_5NixEQXyt_abhlc5vj07YnStLg8</string>
+  <string name="google_app_id" translatable="false">1:14816666554:android:92f3aea9ca60f0be603383</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDvrOI_5NixEQXyt_abhlc5vj07YnStLg8</string>
+  <string name="google_storage_bucket" translatable="false">agritracker-86c72.appspot.com</string>
+  <string name="project_id" translatable="false">agritracker-86c72</string>
 </resources>
