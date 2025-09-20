@@ -11,8 +11,8 @@ android {
         applicationId 'com.agritracker.app'
         minSdkVersion 21
         targetSdkVersion 35
-        versionCode 500012000
-        versionName '1.2.0'
+        versionCode 500012001
+        versionName '1.2.1'
         multiDexEnabled true
     }
     namespace 'com.agritracker.app'
